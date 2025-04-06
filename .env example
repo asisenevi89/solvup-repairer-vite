@@ -1,0 +1,3 @@
+VITE_BACKEND_URL=http://localhost:9000
+VITE_SOLVUP_BACKEND_URL=https://testing-apigateway.solvup.com/backend
+VITE_GOOGLE_MAP_API_KEY=AIzaSyDaMnDGlROkf80q0adWQNgF19zlr8vXTvw

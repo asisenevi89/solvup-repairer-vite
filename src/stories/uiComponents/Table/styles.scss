@@ -1,0 +1,25 @@
+.table-row-striped {
+  background-color: #F4F2F2
+}
+
+.table-row-normal {
+  background-color: ffffff
+}
+
+.table-head-default {
+  background-color: #0288d1;
+  th {
+    color: #FFF;
+    font-size: 16px;
+    font-weight: 400;
+  }
+}
+
+.table-head-inherit {
+  background-color: #F4F2F2;
+  th {
+    color: #000;
+    font-size: 16px;
+    font-weight: 400;
+  }
+}

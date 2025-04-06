@@ -1,0 +1,11 @@
+.image-text-wrapper {
+  display: flex;
+  align-items: center;
+  *{
+    margin: 0 !important;
+  }
+  .MuiSvgIcon-root{
+    margin-right: 5px !important;
+    font-size: 18px;
+  }
+}

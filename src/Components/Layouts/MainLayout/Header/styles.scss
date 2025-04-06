@@ -1,0 +1,118 @@
+.layout-app-bar {
+  padding: 0px;
+  .MuiAppBar-root {
+    box-shadow: none !important;
+  }
+  .header-icon {
+    font-size: 20px;
+  }
+  .header-logo{
+    width: 230px;
+  }
+  .MuiToolbar-root {
+    display: flex;
+    justify-content: space-between;
+    .app-bar-item {
+      color: #FFF;
+      display: flex;
+      justify-content: space-between;
+      height: 40px;
+      .header-icon {
+        font-size: 28px;
+        margin-top: -2px;
+      }
+    }
+  }
+  .support-links{
+    h3{
+      color: #FFF;
+    }
+  }
+  .logout-chip {
+    padding: 20px 0;
+    background-color: #FFF;
+    color: rgba(0, 0, 0, 0.54);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 50px;
+    .person-icon {
+      width: 30px;
+      height: 30px;
+      margin-right: 2px;
+    }
+    .content {
+      display: flex;
+      justify-content: space-between;
+
+      h3 {
+        margin-top: 4px;
+        font-size: 12px;
+        max-width: 100px;
+        text-wrap: wrap;
+        margin: 0;
+        height: 28px;
+        overflow: hidden;
+      }
+
+      .dropdown-icon {
+        font-size: 24px;
+        color: var(--brandColor);
+      }
+    }
+
+    .MuiChip-label {
+      padding: 0 5px;
+      font-size: 14px;
+    }
+  }
+  
+  .left-content {
+    display: flex;
+    .search-wrapper{
+      padding: var(--padding-small);
+      width: 400px;
+      .MuiFormControl-root{
+        width: 100%;
+      }
+      .search-field {
+        width: 100%;
+        .MuiOutlinedInput-root {
+          padding-right: 5px;
+          padding-left: 5px;
+          background-color: #FFF;
+        }
+  
+        .MuiButton-root {
+          width: 37px;
+          height: 29px;
+          padding: 0;
+          min-width: 0;
+          box-shadow: none;
+        }
+      }
+    }
+    .header-icon {
+      margin-top: 10px;
+    }
+  }
+}
+
+
+.app-bar-popover {
+  margin-top: 2px;
+  display: flex;
+
+  .logout-link {
+    width: 171px;
+    padding: 5px 10px;
+    color: var(--brandColor);
+    h5{
+      color: var(--brandColor);
+    }
+    .header-icon {
+      font-size: 28px;
+      margin-top: -2px;
+    }
+  }
+}

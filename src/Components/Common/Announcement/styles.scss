@@ -1,0 +1,195 @@
+@use "sass:color";
+
+.announcement-parent {
+    border: 2px solid var(--brandColor);
+    border-radius: 5px;
+    padding: var(--padding-medium);
+    background-color: color.adjust(#7DBA00, $lightness:60%); 
+    .MuiAccordionSummary-root{
+      min-height: 0;
+      padding: 0;
+      &.Mui-expanded{
+        min-height: 0;
+        padding: 0;
+      }
+    }
+    
+    .MuiAccordion-heading{
+      .MuiAccordionSummary-content{
+        margin: 0 !important;
+      }
+    }
+    .MuiPaper-root {
+      background: none;
+      .MuiAccordionSummary-expandIconWrapper {
+       transition: none;
+      }
+      
+      .header-section {
+        color: var(--brandColor);
+        padding-left: 50px;
+        .anncounce-icon-cover{
+          left: 0;
+          top: 0;
+          position: absolute;
+          padding: 10px;
+          background:  var(--brandColor);
+          color: #fff;
+          border-radius: 100%;
+          width: 40px;
+          height: 40px;
+        }
+        .header-icon {
+          font-size: 20px;
+        }
+        .header-text {
+            padding: 8px 0;
+            color: var(--brandColor);
+        }
+        &.expanded {
+          padding: 0;
+          padding-left: 70px;
+          
+          .anncounce-icon-cover{
+            padding: 14px 13px;
+            border-radius: 100%;
+            width: 56px;
+            height: 56px;
+          }
+          .header-icon {
+            font-size: 30px;
+          }
+          .header-text {
+           padding: 0;
+          }
+          
+        }
+      }
+      .expand-section {
+        display: flex;
+        color: var(--brandColor);
+        transition: none !important;
+        .expand-text {
+          margin-right: 5px;
+          text-decoration: underline;
+          color: var(--brandColor);
+        }
+        &.expanded {
+          transform: rotate(180deg);
+        }
+      }
+    }
+}
+
+.announcement_section{
+  *{
+    -webkit-transition: all 0.3s ease;                  
+    -moz-transition: all 0.3s ease;                 
+    -o-transition: all 0.3s ease;   
+    -ms-transition: all 0.3s ease;          
+    transition: all 0.3s ease;
+  }
+  svg{
+    -webkit-transition: all 0.3s ease;                  
+    -moz-transition: all 0.3s ease;                 
+    -o-transition: all 0.3s ease;   
+    -ms-transition: all 0.3s ease;          
+    transition: all 0.3s ease;
+  }
+  .custom-accordian-detail {
+    padding-left: 70px;
+    font-size: 1.4rem;
+    font-family: var(--font-secondary), 'Trebuchet MS', sans-serif;
+    overflow: auto;
+    height: 202px;
+  }
+  .announcement-parent{
+    padding-bottom: 55px;
+  }
+  .collapsed{
+    .announcement-parent{
+      padding-bottom: var(--padding-medium);
+    }
+    .custom-accordian-detail {
+      opacity: 0;
+    }
+    .carousel-bottom-navigation{
+      display: none !important;
+    }
+    .carousel-btn-wrapper{
+      display: none;
+    }
+    .slick-arrow, .slick-dots {
+      display: none !important; 
+    }
+  }
+  .carousel-bottom-navigation, .slick-dots {
+    margin: 0;
+    position: absolute;
+    bottom: 26px;
+    z-index: 100;
+    list-style-type: none !important;
+    width: 100%;
+    padding: 0;
+    text-align: center;
+    display: flex !important;
+    left: 50%;
+    li{
+      width: 10px;
+      height: 10px;
+      background: var(--brandColor);
+      opacity: 0.4;
+      margin: 0 2px;
+      border-radius: 100%;
+      &.slick-active{
+        width: 30px;
+        border-radius: 6px;
+        opacity: 1;
+      }
+      svg{
+        display: none;
+      }
+      button {
+        font-size: 0;
+        line-height: 0;
+        display: block;
+        width: 20px;
+        height: 20px;
+        padding: 5px;
+        cursor: pointer;
+        color: transparent;
+        border: 0;
+        outline: none;
+        background: transparent;
+      }
+    }
+  }
+  .carousel-btn-wrapper{
+    height: 20px;
+    top: auto;
+    bottom: 30px;
+    margin: 0 15px;
+    z-index: 101;
+    :hover{
+      background: black;
+      filter: brightness(120%);
+      opacity: 0.6;
+    }
+    &.next {
+      position: absolute;
+      right: 0px;
+    }
+    &.prev {
+      position: absolute;
+      left: 0px;
+    }
+    button{
+      opacity: 1;
+      border: 3px solid  var(--lightBrandColor);
+      background: none;
+      color: var(--lightBrandColor);
+      font-size: 20px;
+      
+    }
+  }
+}
