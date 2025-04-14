@@ -329,11 +329,9 @@ const RepairerList = () => {
 
   const onSelectListStatus = (value: ListValueType) => {
     const valueStr = value as number
-    const found = jobStatuses.find(item => item.statusCode === valueStr);
+    const found = optionList.find(item => item.value === valueStr);
 
     if (!found) return;
-
-    const newStatus = { value: found.statusCode, label: found.statusInternalDesc };
 
     // deselecting if already selected
     if (selectedCategories.includes(valueStr)) {
@@ -347,7 +345,7 @@ const RepairerList = () => {
     }
 
     const updated = [...selectedCategories, valueStr]
-    setSelectedStatuses([...selectedStatuses, newStatus]);
+    setSelectedStatuses([...selectedStatuses, found]);
     setSelectedCategories(updated);
     setCurrentPage(defaultPage);
     onFetchJobs(defaultPage, order, orderBy, updated);
@@ -412,8 +410,13 @@ const RepairerList = () => {
     const selected = selectedStatuses.find(item => item.value === option.value);
     const { key, ...restProps } = itemProps;
 
+    const alteredRestProps = {
+      ...restProps,
+      'aria-selected': !!selected
+    };
+    
     return (
-      <span key={key}  {...restProps}>
+      <span key={key}  {...alteredRestProps}>
         <Checkbox value={option.label} checked={!!selected} />
         {option.label}
       </span>
