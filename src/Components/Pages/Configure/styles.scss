@@ -1,0 +1,340 @@
+.configure-container {
+  margin: 80px 20px 0px 20px;
+  .css-wpnxzf {
+    margin-bottom: 0px;
+  }
+  .action-section{
+    margin: 0 -20px -20px -20px;
+    padding: var(--padding-medium) !important;
+  }
+  .section-title{
+    position: relative;
+    margin-bottom: var(--margin-small);
+    h4{
+      background: #fff;
+      position: relative;
+      z-index: 10;
+      padding-right: var(--padding-small);
+      display: inline-block;
+    }
+    &::after{
+      position: absolute;
+      width: 100%;
+      height: 1px;
+      top: 50%;
+      left: 0;
+      content: "";
+      background: var(--borderColor);
+    }
+  }
+  h2{
+    padding-bottom: var(--padding-small);
+  }
+  h3{
+    padding-bottom: var(--padding-small);
+  }
+  .tab-section {
+    margin-top: 20px;
+    border-radius: 5px;
+    div[aria-labelledby="simple-tab-changeDetails"], div[aria-labelledby="simple-tab-repairerJobSetting"] {
+      .css-19kzrtu {
+        padding: 0px;
+      }
+    }
+    .MuiBox-root{
+      padding: 0;
+    }
+    .account-summary-tab{
+      background: #fff;
+      padding: var(--padding-medium);
+      border-bottom: 1px solid var(--borderColor);
+      border-left: 1px solid var(--borderColor);
+      border-right: 1px solid var(--borderColor);
+      border-radius: var(--border-radius);
+      border-top-right-radius: 0;
+    }
+
+    .change-details-tab {
+      background: #fff;
+      padding: var(--padding-medium);
+      border-bottom: 1px solid var(--borderColor);
+      border-left: 1px solid var(--borderColor);
+      border-right: 1px solid var(--borderColor);
+      border-radius: var(--border-radius);
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      .data-section {
+        margin-top: var(--padding-medium);
+        overflow-y: auto;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+        .availability-card {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          border: 1px solid var(--borderColor);
+          border-radius: 5px;
+          padding: 20px;
+        }
+        .details-section {
+          .section-title {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            .details {
+              width: 89%;
+              margin-bottom: 8px;
+            }
+            .systems {
+              width: 87%;
+              margin-bottom: 10px;
+            }
+            .login {
+              width: 93%;
+              margin-bottom: 10px;
+            }
+          }
+          .text-row {
+            margin-top: 15px;
+            display: flex;
+            gap: var(--padding-medium);
+            justify-content: space-between;
+            .text-row-item {
+              width: 100%;
+            }
+
+            .two-third {
+              &.text-row-item {
+                width: 66%;
+              }
+            }
+
+            &.with-select {    
+              width: 66%;
+              .text-row-item {
+                width: 48.5%;
+              }
+            }
+          }
+          .text-row:last-child {
+            margin-bottom: 20px;
+          }
+        }
+
+      }
+      .data-section:first-child {
+        margin-top: 0px;
+      }
+      .status-select {
+        width: 300px;
+        &.success {
+          .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+            border-color: var(--brandColor) !important;
+          }
+        }
+        &.error {
+          .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+            border-color: var(--errorColor) !important;
+
+          }
+        }
+      }
+      .action-section {
+        margin-top: -10px;
+      }
+    }
+    .job-setting-tab {
+      background: #fff;
+      padding: var(--padding-medium);
+      border-bottom: 1px solid var(--borderColor);
+      border-left: 1px solid var(--borderColor);
+      border-right: 1px solid var(--borderColor);
+      border-radius: var(--border-radius);
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      .field-container {
+        display: flex;
+        gap: var(--padding-medium);
+        .field-column {
+          display: block;
+          width: 100%;
+          .field-section {
+            margin-bottom: 20px;
+            h4{
+              padding-bottom: var(--padding-small);
+            }
+            &.column-flex {
+              display: flex;
+              flex-direction: column;
+              justify-content: space-between;
+            }
+            &.column-flex-multiple {
+              margin-top: 20px;
+              display: flex;
+              flex-direction: column;
+              height: 200px;
+              justify-content: space-between;
+            }
+          }
+        }
+      }
+      .action-section {
+        display: flex;
+        justify-content: flex-end;
+        padding: 10px 24px;
+        border-top: 1px solid var(--borderColor);
+      }
+    }
+    .pickup-zones-tab {
+      background: #fff;
+      padding: var(--padding-medium);
+      border-radius: 4px;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      border-bottom: 1px solid var(--borderColor);
+      border-left: 1px solid var(--borderColor);
+      border-right: 1px solid var(--borderColor);
+      .top-area {
+        border: 1px solid var(--borderColor);
+        border-radius: var(--border-radius);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: var(--padding-small);
+        
+        .badge-section {
+          .check-icon {
+            color: var(--brandColor);
+            font-size: 24px;
+          }
+        }
+      }
+      .add-zone-section {
+        margin-top: var(--margin-medium);
+        border: 1px solid var(--borderColor);
+        border-radius: var(--border-radius);
+        .header {
+          border-bottom: 1px solid var(--borderColor);
+          padding: var(--padding-small);
+        }
+        .action-area {
+          display: flex;
+          .postcode-section {
+            width: 60%;
+            border-right: 1px solid var(--borderColor);
+            .postcode-search {
+              display: flex;
+              justify-content: space-between;
+              padding: var(--padding-small);
+              border-bottom: 1px solid var(--borderColor);
+              .MuiAutocomplete-root {
+                width: 100%;
+                .MuiFormControl-root {
+                  width: 100%;
+                }
+                .MuiAutocomplete-popupIndicator {
+                  transform: rotate(0)  !important;
+                }
+              }
+              .add-code {
+                margin-left: var(--margin-small);
+              }
+            }
+            .list-area {
+              .header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+              }
+            }
+          }
+          .upload-section {
+            padding: var(--padding-small);
+            width: 40%;
+            .info {
+              margin-top: -10px;
+              margin-bottom: var(--margin-medium);
+            }
+          }
+        }
+      }
+    }
+    .product-tab {
+      background: #fff;
+      padding: var(--padding-medium);
+      border-radius: 4px;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      border-bottom: 1px solid var(--borderColor);
+      border-left: 1px solid var(--borderColor);
+      border-right: 1px solid var(--borderColor);
+      .tab-view {
+        .MuiTab-root {
+          border: none;
+          margin-right: var(--margin-medium);
+          background-color: #FFF;
+          &.Mui-selected {
+            border-bottom: 2px solid var(--brandColor);
+          }
+        }
+        .sub-tab {
+          margin-top: var(--margin-medium);
+          .post-link {
+            color: var(--textColor);
+            font-weight: 400;
+            font-size: 12px !important;
+          }
+          .data-section {
+            margin-top: var(--margin-medium);
+            border: 1px solid var(--borderColor);
+            border-radius: var(--border-radius);
+            .sub-heading {
+              padding-top: var(--padding-small);
+              padding-left: var(--padding-small);
+            };
+            .action-row {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              gap: var(--padding-small);
+              margin-bottom: var(--margin-medium);
+              padding: var(--padding-small);
+              border-bottom: 1px solid var(--borderColor);
+              align-items: flex-end;
+              .select-01 {
+                width: 20%;
+              }
+              .select-02 {
+                width: 70%;
+              }
+              .add-btn {
+                min-width: 120px;
+                margin-top: 17px;
+              }
+              .select-label {
+                font-weight: 600;
+              }
+            }
+            .table-section {
+              padding: var(--padding-small);
+              .header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: var(--margin-medium);
+                margin-top: -20px;
+              }
+              .postcode-list-table {
+                border: 1px solid var(--borderColor);
+                border-radius: var(--border-radius);
+                .MuiTableCell-head {
+                  font-weight: 600;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

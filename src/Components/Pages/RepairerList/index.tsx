@@ -30,13 +30,13 @@ import {
   Table,
   TextField,
   Typography,
-  BasicList,
   Chip,
   Autocomplete,
   Checkbox,
   IconButton,
   Dialog
 } from "../../UI";
+import BasicList from "../../UI/CustomBasicList";
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import Spinner from "../../Common/Spinner";
 import {
@@ -76,6 +76,7 @@ import {
 } from "../../../Utils/Constants";
 import AnnouncementList from "./Partials/AnnouncementList";
 import BinIcon from '@mui/icons-material/DeleteOutline';
+import './styles.scss';
 
 const textFilters: TextFilters[]  = [
   { value: COLUMN_ID, label: 'Case ID'},

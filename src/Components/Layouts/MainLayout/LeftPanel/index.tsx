@@ -10,11 +10,11 @@ import {
 import {
   setSelectedJobStatus,
   makeJobList,
-  // makeSelectedJobStatus,
   makeJobListLoading,
 } from "../../../../Slices/CaseList";
 import { fetchCaseList } from "../../../../ActionCreators/CaseList";
-import { BasicList, Typography, IconButton } from "../../../UI";
+import { Typography, IconButton } from "../../../UI";
+import BasicList from "../../../UI/CustomBasicList";
 import Spinner from "../../../Common/Spinner";
 import ListIcon from '@mui/icons-material/FormatListBulleted';
 import InfoIcon from "@mui/icons-material/InfoOutlined";
@@ -65,14 +65,12 @@ const LeftPanel = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // const currentStatus = useSelector(makeSelectedJobStatus);
   const jobsLoading  = useSelector(makeJobListLoading);
   const selectedJob: JobType | {} = useSelector(makeSelectedJob);
   const selectedJobLoading = useSelector(makeSelectedJobLoading);
   const jobList = useSelector(makeJobList);
 
   const [selectedItem, setSelectedItem] = useState<ListValueType>('');
-  // const [selectedStatuses, setSelectedStatuses] = useState<number []>([]);
   const [isExpand, setIsExpand] = useState(true);
 
   const repairJobs: JobType[] = jobList.records;
@@ -88,7 +86,6 @@ const LeftPanel = () => {
     const found = listItems.find(item => path.includes(item.value));
 
     if (!path.includes(repairerAction)) {
-      // setSelectedStatuses([]);
       dispatch(setSelectedJobStatus([]));
     }
 
@@ -103,10 +100,6 @@ const LeftPanel = () => {
     setSelectedItem('');
   }, [path]);
 
-  // useEffect(() => {
-  //   setSelectedStatuses(currentStatus)
-  // }, [currentStatus]);
-
   const onSelectItem = (value: ListValueType) => {
     const valueStr = value.toString();
 
@@ -117,7 +110,6 @@ const LeftPanel = () => {
     dispatch(setSelectedJob({}));
 
     if (!valueStr.includes(repairerAction)) {
-      // setSelectedStatuses([]);
       dispatch(setSelectedJobStatus([]));
     }
   };

@@ -13,6 +13,7 @@ import SummaryTabs from "./Partials/SummaryTabs";
 import { toRealDate } from "../../../Utils/Helpers";
 import { CommonObjType, RequestNoteType } from "../../../CustomTypes";
 import ActionTabs from "./Partials/ActionTabs";
+import './styles.scss'
 
 const dateFields = ['updated']
 

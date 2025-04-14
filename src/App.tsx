@@ -1,15 +1,16 @@
+import { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from  'react-router-dom';
 import { ThemeProvider } from '@mui/material';
 import globalTheme from './Ui/Themes/global';
 import './global.scss';
 
-import Home from "./Components/Pages";
-import NotFound from './Components/Pages/NotFound';
-import RepairerList from './Components/Pages/RepairerList';
-import RepairerAction from './Components/Pages/RepairerAction';
-import Configure from './Components/Pages/Configure';
-import MainLayout from './Components/Layouts/MainLayout';
-import SecureRoute from './Components/Common/SecureRoute';
+const Home = lazy(() => import("./Components/Pages"));
+const NotFound = lazy(() => import('./Components/Pages/NotFound'));
+const RepairerList = lazy(() => import('./Components/Pages/RepairerList'));
+const RepairerAction = lazy(() => import( './Components/Pages/RepairerAction'));
+const Configure = lazy(() => import('./Components/Pages/Configure'));
+const MainLayout = lazy(() => import('./Components/Layouts/MainLayout'));
+const SecureRoute = lazy(() => import('./Components/Common/SecureRoute'));
 
 function App() {
   return (
@@ -19,34 +20,48 @@ function App() {
           <Routes>
             <Route
               path="/"
-              element={<Home />}
+              element={
+                <Suspense fallback={<div>Loading...</div>}>
+                  <Home />
+                </Suspense>
+              }
             />
             <Route
               path="/not-found"
-              element={<NotFound />}
+              element={
+                <Suspense fallback={<div>Loading...</div>}>
+                  <NotFound />
+                </Suspense>
+              }
             />
             <Route
               path="/repairer-list"
               element={
-                <SecureRoute>
-                  <RepairerList />
-                </SecureRoute>
+                <Suspense fallback={<div>Loading...</div>}>
+                  <SecureRoute>
+                     <RepairerList />
+                  </SecureRoute>
+                </Suspense>
               }
             />
             <Route
               path="/repairer-action/:id"
               element={
-                <SecureRoute>
-                  <RepairerAction />
-                </SecureRoute>
+                <Suspense fallback={<div>Loading...</div>}>
+                  <SecureRoute>
+                    <RepairerAction />
+                  </SecureRoute>
+                </Suspense>
               }
             />
             <Route
               path="/configure"
               element={
-                <SecureRoute>
-                  <Configure />
-                </SecureRoute>
+                <Suspense fallback={<div>Loading...</div>}>
+                  <SecureRoute>
+                    <Configure />
+                  </SecureRoute>
+                </Suspense>
               }
             />
             <Route

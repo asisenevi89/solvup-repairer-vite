@@ -237,8 +237,6 @@ a {
 
 .custom-check-list {
   padding: 10px 0px;
-  .label {
-  }
   .options {
     margin-left: 3px;
   }
@@ -403,4 +401,126 @@ h1, h2, h3, h4, h5, h6 {
   text-transform: none;
   font-size: 1.4rem;
   font-family: var(--font-secondary),
+}
+
+
+// Common
+
+.MuiPagination-root{
+  padding: 0 var(--padding-medium);
+}
+
+.no-bold {
+  font-weight: 400 !important;
+}
+
+.tab-label {
+  padding: 0px var(--padding-small);
+  .MuiSvgIcon-root {
+    margin-top: -2px;
+    margin-right: -2px;
+  }
+}
+
+.notes-heading {
+  margin-bottom: 10px;
+  .notes-icon {
+    color: var(--brandColor);
+    font-size: 24px !important;
+    margin: 0 !important;
+  }
+}
+
+.tab-wrapper {
+  background-color: #FFF;
+  border-radius: 5px;
+  .css-wpnxzf {
+    margin-bottom: 0px !important;
+  }
+}
+
+.available-option {
+  display: flex;
+  svg {
+    margin-top: 2.2px;
+    margin-right: 8px;
+  }
+  &.available {
+    color: var(--brandColor);
+  }
+
+  &.unavailable {
+    color: var(--errorColor);
+  }
+}
+
+.group-select-menu {
+  position: fixed !important;
+  .MuiPaper-root {
+    max-height: 300px;
+  }
+}
+
+.status-select-menu {
+  .MuiPaper-root {
+    max-height: 300px;
+  }
+}
+
+.tab-table {
+  margin: var(--margin-medium);
+  border: 1px solid var(--borderColor);
+  border-radius: var(--border-radius);
+  .MuiTableCell-head {
+    font-weight: 600;
+  }
+  .MuiTableCell-alignRight {
+    text-align: right;
+  }
+  .MuiTableBody-root {
+    height: calc(100vh - 580px);
+    display: block;
+    overflow: auto;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none; 
+  }
+  thead, tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+  }
+  td {
+    padding: 0px 12px;
+  }
+  &.brand-list-table {
+    margin: 0;
+    .MuiTableBody-root {
+      height: calc(100vh - 610px);
+    }
+  }
+}
+
+.select-tag-container {
+  .select-chip {
+    z-index: 100000;
+    margin-right: var(--margin-small);
+    background-color: var(--lightTextColor);
+    .MuiChip-label {
+      color: #FFF;
+      font-weight: 400;
+    }
+    .MuiChip-deleteIcon {
+      color: #FFF;
+      font-size: 14px;
+    }
+  }
+}
+
+.MuiTooltip-tooltip {
+  font-size: 1.4rem !important;
+}
+
+.case-detail-link {
+  font-size: 1.4rem !important;
+  font-family: var(--font-secondary) !important;
 }

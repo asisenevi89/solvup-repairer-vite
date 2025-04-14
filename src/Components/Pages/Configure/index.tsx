@@ -14,6 +14,7 @@ import JobSettingTab from "./Partials/JobSettingTab";
 import LoginDetailsTab from "./Partials/LoginDetailsTab";
 import PickupZonesTab from "./Partials/PickupZonesTab";
 import ProductsTab from "./Partials/ProductsTab";
+import './styles.scss';
 
 import {
   ACCOUNT_SUMMARY,
