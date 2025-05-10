@@ -1,10 +1,12 @@
 import { memo, useState, useEffect, ChangeEvent } from "react";
+import { useDispatch } from "react-redux";
+import { initCaseEscalation } from "../../../../../../ActionCreators/CaseAction";
 import { Warning as WarningIcon } from "@mui/icons-material";
 import { Typography, Alert, TextArea, Button } from "../../../../../UI";
 import { CommonObjType, EscalationCaseType } from "../../../../../../CustomTypes";
 
 type FormType = {
-  jobId: string,
+  jobId: number,
   currentValues: EscalationCaseType | undefined;
 };
 
@@ -13,7 +15,8 @@ const defaultErrors: CommonObjType = {
 };
 
 const ItemForm = (props: FormType) => {
-  const { currentValues } = props;
+  const dispatch = useDispatch();
+  const { currentValues, jobId } = props;
 
   const [escalationNotes, setEscalationNotes] = useState('');
   const [errors, setErrors] = useState(defaultErrors);
@@ -53,6 +56,13 @@ const ItemForm = (props: FormType) => {
 
   const saveEscalation = () => {
     if (hasErrors()) return;
+
+    const data  = {
+      requestId: jobId,
+      notes: escalationNotes
+    };
+
+    dispatch(initCaseEscalation(data))
   };
 
   return (

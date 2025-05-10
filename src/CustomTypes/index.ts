@@ -401,7 +401,6 @@ export type CaseDetailTabItem = {
   value: string,
   type: string,
   editable: boolean,
-  required: boolean,
   theme: object,
   toolTipText: string,
 };
@@ -422,3 +421,20 @@ export type CaseDetailTabSagaType = {
   url: string,
   data: { tabKey: string },
 }
+
+export type InitCaseEscalateData = {
+  requestId: number,
+  notes: string,
+};
+
+export type InitCaseEscalate = {
+  type: string,
+  url: string,
+  data: InitCaseEscalateData
+};
+
+export type InitAddNote = {
+  type: string,
+  url: string,
+  data: FormData
+};

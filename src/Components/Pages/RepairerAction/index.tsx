@@ -3,7 +3,7 @@ import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import _startCase from 'lodash/startCase';
 import SmsIcon from '@mui/icons-material/SmsOutlined';
-import { fetchCaseById, fetchCaseRequestNotes } from "../../../ActionCreators/CaseAction";
+import { fetchCaseById, initFetchCaseRequestNotes } from "../../../ActionCreators/CaseAction";
 import { makeRequestNotes, makeRequestNotesLoading } from "../../../Slices/CaseAction";
 import { Grid, Typography } from "../../UI";
 import DetailCard from "../../Common/DetailCard";
@@ -27,7 +27,7 @@ const RepairerAction = () => {
     if (!params.id) return;
 
     dispatch(fetchCaseById(params.id));
-    dispatch(fetchCaseRequestNotes(params.id));
+    dispatch(initFetchCaseRequestNotes(params.id));
   }, [params.id]);
 
 

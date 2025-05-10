@@ -10,8 +10,10 @@ import {
   setJobActionItems,
   setCaseTabDataLoading,
   setCaseTabData,
+  setCaseEscalationStatus,
+  setNoteSavingStatus,
 } from '../Slices/CaseAction';
-import { setSuccessSave } from "../Slices/General";
+import { setNetworkError, setSuccessSave } from "../Slices/General";
 import { getAxiosInstance } from "../Utils/Helpers";
 import {
   InitActionType,
@@ -20,8 +22,13 @@ import {
   JobActionItemsResType,
   CaseDetailTabResDataType,
   CaseDetailTabSagaType,
+  InitCaseEscalate,
+  AxiosGenericSuccessResData,
+  AxiosErrorResponse,
+  InitAddNote,
 } from "../CustomTypes";
 import { AxiosJobListResponseType } from "./CaseList";
+import { initFetchCaseRequestNotes } from "../ActionCreators/CaseAction";
 
 type AxiosJobReqNotesType = {
   data: ReqNoteResType,
@@ -115,6 +122,49 @@ export function* fetchCaseDetailsTabData (action: CaseDetailTabSagaType) {
 
   } catch (error) {
     yield put(setCaseTabDataLoading(false));
+    console.error(error);
+  }
+};
+
+export function* escalateCase (action: InitCaseEscalate) {
+  const { url, data } = action;
+
+  try {
+    yield put(setCaseEscalationStatus(true));
+    const response: AxiosGenericSuccessResData = yield getAxiosInstance().post(url, data);
+    yield put(setCaseEscalationStatus(false));
+    yield put(setSuccessSave(response.data.StatusDescription));
+    yield put(initFetchCaseRequestNotes(data.requestId));
+  } catch (error) {
+    const axiosError = error as AxiosErrorResponse
+    yield put(setCaseEscalationStatus(false));
+    yield put(setNetworkError(axiosError.response.data.StatusDescription));
+    console.error(error);
+  }
+};
+
+
+export function* addRequestNote (action: InitAddNote) {
+  const { url, data } = action;
+  const caseId = data.get('requestId') || '';
+  const headers = {
+    'Content-Type': 'multipart/form-data;'
+  };
+
+  try {
+    yield put(setNoteSavingStatus(true));
+    const response: AxiosGenericSuccessResData =
+      yield getAxiosInstance().post(url, data, { headers });
+    yield put(setNoteSavingStatus(false));
+    yield put(setSuccessSave(response.data.StatusDescription));
+    
+    if (caseId && typeof caseId === 'string') {
+      yield put(initFetchCaseRequestNotes(parseInt(caseId)));
+    }
+  } catch (error) {
+    const axiosError = error as AxiosErrorResponse
+    yield put(setNoteSavingStatus(false));
+    yield put(setNetworkError(axiosError.response.data.StatusDescription));
     console.error(error);
   }
 };

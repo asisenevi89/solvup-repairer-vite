@@ -1,9 +1,21 @@
 import { memo, useState, useEffect, ChangeEvent } from "react";
-import { Typography, TextArea, Button, Upload } from "../../../../../UI";
-import { CommonObjType, FileUploadType, NoteFormType } from "../../../../../../CustomTypes";
+import { useDispatch } from "react-redux";
+import {
+  Typography,
+  TextArea,
+  Button,
+  Upload,
+  Checkbox,
+} from "../../../../../UI";
+import {
+  CommonObjType,
+  FileUploadType,
+  NoteFormType,
+} from "../../../../../../CustomTypes";
+import { intiAddRequestNote } from "../../../../../../ActionCreators/CaseAction";
 
 type FormType = {
-  jobId: string,
+  jobId: number,
   currentValues: NoteFormType | undefined;
 };
 
@@ -20,10 +32,13 @@ const allowedType = [
 ];
 
 const ItemForm = (props: FormType) => {
-  const { currentValues } = props;
+  const { currentValues, jobId } = props;
+  const dispatch = useDispatch();
 
   const [notes, setNotes] = useState('');
   const [noteFile, setNoteFile] = useState<File| null>(null);
+  const [sendEmailStatus , setSendEmailStatus] = useState(false);
+  const [uploadReset, setUploadReset] = useState(0);
   const [errors, setErrors] = useState(defaultErrors);
 
   useEffect(() => {
@@ -56,6 +71,11 @@ const ItemForm = (props: FormType) => {
     return '';
   };
 
+  const onChangeSendEmail = (event: ChangeEvent<HTMLInputElement>) => {
+    const { checked } = event.target;
+    setSendEmailStatus(checked);
+  };
+
   const hasErrors = () => {
     let notesError = '';
     let fileError = '';
@@ -64,11 +84,6 @@ const ItemForm = (props: FormType) => {
     if (!notes) {
       notesError = 'Please enter a note.';
       validationErrors.push(notesError);
-    }
-
-    if (!noteFile) {
-      fileError = 'Please add a file.';
-      validationErrors.push(fileError);
     }
 
     setErrors({
@@ -80,8 +95,26 @@ const ItemForm = (props: FormType) => {
     return !!validationErrors.length;
   };
 
+  const resetData = () => {
+    setNoteFile(null);
+    setNotes('');
+    setSendEmailStatus(false);
+    setUploadReset(Date.now());
+  };
+
   const saveNotes = () => {
     if (hasErrors()) return;
+    const formData = new FormData();
+
+    if (noteFile) {
+      formData.append('files', noteFile);
+    }
+
+    formData.append('requestId', jobId.toString());
+    formData.append('notes', notes);
+    formData.append('sendEmail', sendEmailStatus.toString());
+    dispatch(intiAddRequestNote(formData));
+    resetData();
   };
 
   return (
@@ -97,11 +130,18 @@ const ItemForm = (props: FormType) => {
           helpText={errors.notes}
           error={!!errors.notes}
         />
+        <Checkbox
+          value="send"
+          checked={sendEmailStatus}
+          onChange={onChangeSendEmail}
+          label={<Typography variant="h4">Send an email notification</Typography>}
+        />
         <Upload
           variant="outlined"
           onUpload={onFileUpload}
           beforeUpload={beforeUpload}
           emptyError={errors.noteFile}
+          resetCounter={uploadReset}
         />
         <div className="upload-info">
           <Typography>Permitted file types: JGP, PNG, GIF and PDF</Typography>

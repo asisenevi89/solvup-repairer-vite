@@ -12,6 +12,8 @@ import {
   INIT_SAVE_BOOKMARKED_STATUSES,
   INIT_FETCH_ANNOUNCEMENTS,
   INIT_FETCH_CASE_DETAILS_TAB_DATA,
+  INTI_ESCALATE_CASE,
+  INIT_ADD_REQUEST_NOTE,
   INIT_FETCH_ACCOUNT_SUMMARY,
   INIT_UPDATE_ACCOUNT_DETAILS,
   INIT_UPDATE_LOGIN_DETAILS,
@@ -34,6 +36,8 @@ import {
   saveCaseActionItem,
   fetchCaseActionItems,
   fetchCaseDetailsTabData,
+  escalateCase,
+  addRequestNote,
 } from './CaseAction'
 import {
   fetchAccountSummary,
@@ -63,6 +67,8 @@ export function* watchCaseAction () {
   yield takeLatest(INIT_FETCH_JOB_ACTION_ITEMS, fetchCaseActionItems);
   yield takeLatest(INIT_SAVE_JOB_ACTION_ITEMS, saveCaseActionItem);
   yield takeLatest(INIT_FETCH_CASE_DETAILS_TAB_DATA, fetchCaseDetailsTabData);
+  yield takeLatest(INTI_ESCALATE_CASE, escalateCase);
+  yield takeLatest(INIT_ADD_REQUEST_NOTE, addRequestNote);
 };
 
 export function* watchConfigurations () {

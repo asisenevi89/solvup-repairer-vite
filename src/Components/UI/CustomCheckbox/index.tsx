@@ -1,9 +1,9 @@
-import { memo } from 'react';
+import { memo, ReactNode } from 'react';
 import Checkbox, { CheckboxProps } from '@mui/material/Checkbox';
 import { FormControlLabel } from '@mui/material';
 
 export interface CustomCheckboxProps extends CheckboxProps {
-  label?: string,
+  label?: ReactNode,
   value: string,
   labelPlacement?: 'top' | 'bottom' | 'start' | 'end',
 }

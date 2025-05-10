@@ -9,7 +9,8 @@ import {
   StoreOutlined as WarehouseIcon,
   PersonOutlineOutlined as PersonIcon,
   AccessTimeOutlined as ClockIcon,
-  FormatListNumberedOutlined as ListIcon,
+  // Removed Temporarily 
+  // FormatListNumberedOutlined as ListIcon,
 } from "@mui/icons-material";
 import ImageText from "../../../../Common/ImageText";
 import { Tabs, Typography } from "../../../../UI";
@@ -23,10 +24,12 @@ import {
   ITEM_LOCATION,
   CUSTOMER,
   TIMING,
-  COMMUNICATION_LOG
+  // Removed Temporarily 
+  // COMMUNICATION_LOG
 } from "../../../../../Utils/Constants";
 import { CommonObjType, TabImageType } from "../../../../../CustomTypes";
 import { initCaseDetailsTabData } from "../../../../../ActionCreators/CaseAction";
+import TimingTab from "./Partials/TimingTab";
 
 const tabImages: TabImageType = {
   [CASE_SUMMARY]: <TaskAlt />,
@@ -35,7 +38,8 @@ const tabImages: TabImageType = {
   [ITEM_LOCATION]: <WarehouseIcon />,
   [CUSTOMER]: <PersonIcon />,
   [TIMING]: <ClockIcon />,
-  [COMMUNICATION_LOG]: <ListIcon />,
+  // Removed Temporarily 
+  // [COMMUNICATION_LOG]: <ListIcon />,
 };
 
 const tabLabels: CommonObjType = {
@@ -45,7 +49,8 @@ const tabLabels: CommonObjType = {
   [ITEM_LOCATION]: 'Item Location',
   [CUSTOMER]: 'Customer',
   [TIMING]: 'Timing',
-  [COMMUNICATION_LOG]: 'Communication Log',
+  // Removed Temporarily 
+  // [COMMUNICATION_LOG]: 'Communication Log',
 };
 
 const tabs = SUMMARY_TABS.map(item => {
@@ -65,8 +70,9 @@ const tabPanels = [
   { value: FAULT_PAPERWORK, children:  <CaseDetailTab tabKey={FAULT_PAPERWORK} /> },
   { value: ITEM_LOCATION, children: <CaseDetailTab tabKey={ITEM_LOCATION} /> },
   { value: CUSTOMER, children: <CaseDetailTab tabKey={CUSTOMER} /> },
-  { value: TIMING, children: <CaseDetailTab tabKey={TIMING} /> },
-  { value: COMMUNICATION_LOG, children: <CaseDetailTab tabKey={COMMUNICATION_LOG} /> },
+  { value: TIMING, children: <TimingTab tabKey={TIMING} /> },
+  // Removed Temporarily 
+  // { value: COMMUNICATION_LOG, children: <CaseDetailTab tabKey={COMMUNICATION_LOG} /> },
 ];
 
 const SummaryTab = () => {

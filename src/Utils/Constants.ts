@@ -47,9 +47,13 @@ export const SUMMARY_TABS = [
   ITEM_LOCATION,
   CUSTOMER,
   TIMING,
-  COMMUNICATION_LOG,
+  // Removed Temporarily 
+  // COMMUNICATION_LOG,
 ];
-export const DISABLE_SUMMARY = [TIMING, COMMUNICATION_LOG];
+export const DISABLE_SUMMARY = [
+  // TIMING,
+  COMMUNICATION_LOG
+];
 
 export const NEXT_ACTION = 'nextAction';
 export const NOTES = 'notes';
@@ -61,8 +65,9 @@ export const ACTION_TABS = [
   NEXT_ACTION,
   NOTES,
   ESCALATION,
-  CONTACT_CUSTOMER,
-  CUSTOMER_DISPATCH_DATE,
+  // Removed Temporarily 
+  // CONTACT_CUSTOMER,
+  // CUSTOMER_DISPATCH_DATE,
 ]
 export const DISABLE_ACTIONS = [CONTACT_CUSTOMER, CUSTOMER_DISPATCH_DATE];
 

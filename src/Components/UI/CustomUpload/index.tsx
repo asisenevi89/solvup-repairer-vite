@@ -12,9 +12,10 @@ export interface CustomUploadProps extends ButtonProps {
   text?: string;
   wrapperClass?: string,
   emptyError?: string,
+  resetCounter?: number,
   onUpload: (files: FileUploadType) => void
   onRemoveFile?: (fileName: string) => void;
-  beforeUpload?: (files: FileUploadType) => string
+  beforeUpload?: (files: FileUploadType) => string,
 };
 
 const CustomUpload = (props: CustomUploadProps) => {
@@ -23,6 +24,7 @@ const CustomUpload = (props: CustomUploadProps) => {
     text,
     icon = <CloudUploadIcon />,
     emptyError = '',
+    resetCounter = 0,
     onUpload,
     onRemoveFile,
     beforeUpload,
@@ -36,6 +38,14 @@ const CustomUpload = (props: CustomUploadProps) => {
   useEffect(() => {
     setFileError(emptyError);
   }, [emptyError]);
+
+  useEffect(() => {
+    if (resetCounter) {
+      
+      setCurrentFile('');
+      setFileError('');
+    }
+  }, [resetCounter]);
 
   const fileEvent = (event: ChangeEvent<HTMLInputElement>) => {
     const { files } = event.target;

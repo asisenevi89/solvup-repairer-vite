@@ -19,6 +19,8 @@ export type CaseDetailState = {
     isRequestNotesLoading: boolean,
     isLoadingActionItems: boolean,
     jobActionItems: {},
+    isCaseEscalating: boolean,
+    isAddingRequestNote: boolean,
   }
 };
 
@@ -43,6 +45,8 @@ const initialState = {
   isRequestNotesLoading: false,
   isLoadingActionItems: false,
   jobActionItems: {},
+  isCaseEscalating: false,
+  isAddingRequestNote: false,
 };
 
 const caseActionSlice = createSlice({
@@ -77,6 +81,12 @@ const caseActionSlice = createSlice({
     setCaseTabDataLoading(state, action: PayloadAction<boolean>) {
       _set(state, 'caseTabDataLoading', action.payload); 
     },
+    setCaseEscalationStatus(state, action: PayloadAction<boolean>) {
+      _set(state, 'isCaseEscalating', action.payload); 
+    },
+    setNoteSavingStatus(state, action: PayloadAction<boolean>) {
+      _set(state, 'isAddingRequestNote', action.payload); 
+    },
   },
   selectors: {
     makeSelectedJob: state => state.selectedJob,
@@ -87,6 +97,8 @@ const caseActionSlice = createSlice({
     makeJobActionItems: state => state.jobActionItems,
     makeCaseTabData: (state, tabKey) => state.caseTabData[tabKey],
     makeCaseTabDataLoading: state => state.caseTabDataLoading,
+    makeCaseEscalationStatus: state => state.isCaseEscalating,
+    makeNoteSaving: state => state.isAddingRequestNote,
   }
 })
 
@@ -100,6 +112,8 @@ export const {
   setJobActionItems,
   setCaseTabData,
   setCaseTabDataLoading,
+  setCaseEscalationStatus,
+  setNoteSavingStatus,
 } = caseActionSlice.actions;
 
 export const  {
@@ -111,6 +125,8 @@ export const  {
   makeJobActionItems,
   makeCaseTabData,
   makeCaseTabDataLoading,
+  makeCaseEscalationStatus,
+  makeNoteSaving,
 } = caseActionSlice.selectors
 
 export default caseActionSlice.reducer;

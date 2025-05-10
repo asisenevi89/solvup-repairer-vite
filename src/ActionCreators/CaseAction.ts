@@ -1,4 +1,8 @@
-import { DataIdType, ActionSaveDataType } from "../CustomTypes";
+import {
+  DataIdType,
+  ActionSaveDataType,
+  InitCaseEscalateData,
+} from "../CustomTypes";
 
 import { 
   INIT_FETCH_JOB_BY_ID,
@@ -6,6 +10,8 @@ import {
   INIT_SAVE_JOB_ACTION_ITEMS,
   INIT_FETCH_JOB_ACTION_ITEMS,
   INIT_FETCH_CASE_DETAILS_TAB_DATA,
+  INTI_ESCALATE_CASE,
+  INIT_ADD_REQUEST_NOTE,
 } from "./ActionTypes";
 
 const dataUrl = import.meta.env.VITE_BACKEND_URL;
@@ -19,7 +25,7 @@ export const fetchCaseById = (id: DataIdType) => {
   };
 };
 
-export const fetchCaseRequestNotes = (caseId: DataIdType) => {
+export const initFetchCaseRequestNotes = (caseId: DataIdType) => {
   const url = `/case-data/cases/${caseId}?tab=requestNotes`;
 
   return {
@@ -65,3 +71,24 @@ export const initCaseDetailsTabData = (caseId: DataIdType, tabKey: string) => {
     data: { tabKey },
   };
 };
+
+export const initCaseEscalation = (data: InitCaseEscalateData) => {
+  const url = '/escalate-case';
+
+  return {
+    type: INTI_ESCALATE_CASE,
+    url,
+    data,
+  }
+};
+
+export const intiAddRequestNote = (data: FormData) => {
+  const url = '/add-notes';
+
+  return {
+    type: INIT_ADD_REQUEST_NOTE,
+    url,
+    data,
+  }
+};
+

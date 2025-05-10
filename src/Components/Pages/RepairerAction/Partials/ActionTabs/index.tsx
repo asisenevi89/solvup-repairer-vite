@@ -5,8 +5,9 @@ import {
   Slideshow as SlideIcon,
   SmsOutlined as SmsIcon,
   ReportProblemOutlined as WarningIcon,
-  BookOutlined as PhoneIcon,
-  CalendarToday as CalendarIcon,
+  // Removed Temporarily 
+  // BookOutlined as PhoneIcon,
+  // CalendarToday as CalendarIcon,
 } from "@mui/icons-material";
 import { Tabs, Typography } from "../../../../UI";
 import ImageText from "../../../../Common/ImageText";
@@ -17,8 +18,9 @@ import {
   NEXT_ACTION,
   NOTES,
   ESCALATION,
-  CONTACT_CUSTOMER,
-  CUSTOMER_DISPATCH_DATE,
+  // Removed Temporarily 
+  // CONTACT_CUSTOMER,
+  // CUSTOMER_DISPATCH_DATE,
   DISABLE_ACTIONS,
   ACTION_TABS,
 } from "../../../../../Utils/Constants";
@@ -28,8 +30,9 @@ const tabImages: TabImageType = {
   [NEXT_ACTION]: <SlideIcon />,
   [NOTES]: <SmsIcon />,
   [ESCALATION]: <WarningIcon />,
-  [CONTACT_CUSTOMER]: <PhoneIcon />,
-  [CUSTOMER_DISPATCH_DATE]: <CalendarIcon />,
+  // Removed Temporarily 
+  // [CONTACT_CUSTOMER]: <PhoneIcon />,
+  // [CUSTOMER_DISPATCH_DATE]: <CalendarIcon />,
 };
 
 const tabs = ACTION_TABS.map(item => {
@@ -53,8 +56,9 @@ const tabPanels = [
   { value: NEXT_ACTION, children: <NextActionTab /> },
   { value: NOTES, children: <NotesTab /> },
   { value: ESCALATION, children: <EscalationTab /> },
-  { value: CONTACT_CUSTOMER, children: <div>Customer Tab</div> },
-  { value: CUSTOMER_DISPATCH_DATE, children: <div>Dispatch Tab</div> },
+  // Removed Temporarily 
+  // { value: CONTACT_CUSTOMER, children: <div>Customer Tab</div> },
+  // { value: CUSTOMER_DISPATCH_DATE, children: <div>Dispatch Tab</div> },
 ];
 
 const ActionTabs = () => {
