@@ -1,4 +1,5 @@
 import { ChangeEvent, memo, useState, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import _debounce from 'lodash/debounce';
 import {
   Button,
@@ -10,6 +11,7 @@ import {
   IconButton,
 } from '../../../UI';
 import ImageText from '../../../Common/ImageText';
+import Spinner from '../../../Common/Spinner';
 import CheckCircle from '@mui/icons-material/CheckCircleOutlineOutlined';
 import SearchIcon from '@mui/icons-material/Search';
 import BinIcon from '@mui/icons-material/DeleteOutline';
@@ -17,6 +19,8 @@ import { pickupPoints } from '../../../../Utils/DummyData';
 import { PickupPointType, PlaceResult, TableRowDataType } from '../../../../CustomTypes';
 import GoogleAutocomplete from '../../../Common/GoogleAutocomplete';
 import googlePin from '../../../../Assets/images/googlePin.png'
+import { makePickupStatus, makePickupStatusUpdating } from '../../../../Slices/Configuration';
+import { initUpdateNationwidePickup } from '../../../../ActionCreators/Configurations';
 
 const zoneTableHeaders = [
   { key: 'city', label: 'City'},
@@ -31,14 +35,17 @@ const cityType = 'administrative_area_level_2';
 const postcodeType = 'postal_code';
 
 const PickupZonesTab = () => {
-  const [pickup, setPickUp] = useState(false);
+  const dispatch = useDispatch();
+  const nationwidePickup = useSelector(makePickupStatus);
+  const isUpdatingPickup = useSelector(makePickupStatusUpdating);
+
   const [locations, setLocations] = useState(pickupPoints);
   const [filteredLocation, setFilteredLocation] = useState(pickupPoints);
   const [newPlaceData, setNewPlaceData] = useState<PlaceResult | null>(null)
 
   const onChangePickup = (event: ChangeEvent<HTMLInputElement>) => {
     const { checked } = event.target;
-    setPickUp(checked);
+    dispatch(initUpdateNationwidePickup(checked));
   };
 
   const onDeleteRow = (rowId: TableRowDataType) => {
@@ -135,32 +142,34 @@ const PickupZonesTab = () => {
 
   return (
     <div className='pickup-zones-tab'>
-      <div className='top-area'>
-        <div className='switch-section'>
-          <Switch 
-            checked={pickup}
-            onChange={onChangePickup}
-            label={
-              <Typography variant='h4'>
-                Free Nationwide Pickup
-              </Typography>
-            }
-          />
-        </div>
-        <div className='badge-section'>
-          {pickup && (
-            <ImageText
-              image={<CheckCircle className='check-icon' />}
-              text={
-                <Typography variant='h4' color='primary'>
-                  Active
+      <Spinner backdropProps={{ open: isUpdatingPickup }}>
+        <div className='top-area'>
+          <div className='switch-section'>
+            <Switch 
+              checked={nationwidePickup}
+              onChange={onChangePickup}
+              label={
+                <Typography variant='h4'>
+                  Free Nationwide Pickup
                 </Typography>
               }
             />
-          )}
+          </div>
+          <div className='badge-section'>
+            {nationwidePickup && (
+              <ImageText
+                image={<CheckCircle className='check-icon' />}
+                text={
+                  <Typography variant='h4' color='primary'>
+                    Active
+                  </Typography>
+                }
+              />
+            )}
+          </div>
         </div>
-      </div>
-      {!pickup && (
+      </Spinner>
+      {!nationwidePickup && (
         <div className='add-zone-section'>
           <div className='header'>
             <Typography variant='h4'>Free pickup postcodes</Typography>

@@ -1,40 +1,48 @@
-import { memo } from "react";
+import { memo, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import _upperCase from "lodash/upperCase";
+import _startCase from "lodash/startCase";
 import DetailCard from "../../../Common/DetailCard";
 import { Typography } from "../../../UI";
-import { getRepairerData } from "../../../../Utils/Helpers";
+import { makeAccountSummary, makeAccountSummaryLoading } from "../../../../Slices/Configuration";
+import { initFetchAccountSummary } from "../../../../ActionCreators/Configurations";
+import Spinner from "../../../Common/Spinner";
 
-const unknown  = 'UNKNOWN';
+const allCapital = ['abn'];
 
 const AccountSummaryTab = () => {
-  const accountData = getRepairerData();
+  const dispatch = useDispatch();
+  const isAccountSummaryLoading = useSelector(makeAccountSummaryLoading);
+  const accountData = useSelector(makeAccountSummary);
   const {
-    abn,
-    address,
-    retailerSupportLine,
-    customerSupportLine,
-    email,
-    name,
-    suburb,
-    state,
-    postcode,
+    user,
+    nationwidePickup,
+    availability,
+    minFee,
+    deliveryNote,
+    advertiseMessage,
+    ...accountSummary
   } = accountData;
-  const cardDetails = [
-    { dataKey: 'ABN', dataValue: abn },
-    { dataKey: 'Street Address', dataValue: address },
-    { dataKey: 'Suburb', dataValue: suburb },
-    { dataKey: 'State', dataValue: _upperCase(state) },
-    { dataKey: 'Postal Code', dataValue: postcode },
-    { dataKey: 'Retailer Support Line', dataValue: retailerSupportLine },
-    { dataKey: 'Customer Support Line', dataValue: customerSupportLine || unknown },
-    { dataKey: 'Contact Email', dataValue: email },
-  ];
+
+  useEffect(() => {
+    dispatch(initFetchAccountSummary())
+  }, []);
+
+  
+  const accountDetails = Object.keys(accountSummary).map((key) => (
+    {
+      dataKey: allCapital.includes(key) ? _upperCase(key) : _startCase(key),
+      dataValue: accountSummary[key as keyof typeof accountSummary],
+    }
+  ));
 
   return (
-    <div className="account-summary-tab">
-      <Typography variant="h2">{name}</Typography>
-      <DetailCard details={cardDetails} />
-    </div>
+    <Spinner backdropProps={{ open: isAccountSummaryLoading}}>
+      <div className="account-summary-tab">
+        <Typography variant="h2">{accountSummary.repairerName}</Typography>
+        <DetailCard details={accountDetails} />
+      </div>
+    </Spinner>
   );
 };
 

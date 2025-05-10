@@ -1,3 +1,5 @@
+import { AccountSummaryType } from "../CustomTypes/ConfigurationTypes";
+
 export const DEFAULT_CURRENCY = '$';
 export const LOADER_TIME = 3000;
 export const DEFAULT_DATE_TIME_FORMAT = 'DD-MM-YYYY hh:mm A';
@@ -123,3 +125,24 @@ export const REPAIR_SYSTEMS = [
   { value: 'intelogy',  label: 'Intelogy (Paperworks)' },
   { value: 'filemaker',  label: 'Filemaker' },
 ];
+
+export const defaultAccountSummary: AccountSummaryType = {
+  abn: "",
+  repairerName: "",
+  streetAddress: "",
+  retailerSupportLine: "",
+  consumerSupportLine: "",
+  contactEmail: "",
+  suburb: "",
+  state: "",
+  postalcode: "",
+  websiteUrl: "",
+  nationwidePickup: false,
+  user: {
+    identifier: ''
+  },
+  availability: false,
+  minFee: 0,
+  deliveryNote: '',
+  advertiseMessage: ''
+}

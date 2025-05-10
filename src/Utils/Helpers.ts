@@ -98,4 +98,23 @@ export const getAxiosInstance = (auth = true, backend = DEFAULT_BE, headers: Com
   );
 
   return instance;
-}
+};
+export const isValidEmail = (email: string) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
+export const isValidPhoneNumber = (phone: string) => {
+  const phoneRegex = /^(?:\+?61\s?|0)[2-478](?:[ -]?\d){8}$/; // Australian phone number regex
+  return phoneRegex.test(phone);
+};
+
+export const isValidPostcode = (postcode: string) => {
+  const postcodeRegex = /^(0[0-9]{3}|[1-9][0-9]{3})$/; // Australian postcode regex
+  return postcodeRegex.test(postcode);
+};
+
+export const isValidWebsite = (url: string) => {
+  const urlRegex = /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$/;
+  return urlRegex.test(url);
+};

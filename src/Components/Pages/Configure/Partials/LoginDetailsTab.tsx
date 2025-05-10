@@ -1,7 +1,10 @@
 import { ChangeEvent, memo, SyntheticEvent, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { makeLoginDetailsUpdating, makeUserIdentifier } from "../../../../Slices/Configuration";
 import { Button, TextField, Typography } from "../../../UI";
-import { getRepairerData } from "../../../../Utils/Helpers";
+import Spinner from "../../../Common/Spinner";
 import { CommonObjType } from "../../../../CustomTypes";
+import { initUpdateLoginDetails } from "../../../../ActionCreators/Configurations";
 
 const defaultErrors: CommonObjType = {
   currentPassword: '',
@@ -14,8 +17,9 @@ const emptyNewPassword = 'New Password Cannot be empty.';
 const emptyRetypePassword = 'Retype Password Cannot be empty.';
 
 const JobSettingTab = () => {
-  const accountData = getRepairerData();
-  const { identifier } = accountData;
+  const dispatch = useDispatch();
+  const identifier = useSelector(makeUserIdentifier);
+  const isUpdating = useSelector(makeLoginDetailsUpdating);
 
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -106,7 +110,12 @@ const JobSettingTab = () => {
     if (hasErrors) return;
 
     if (currentPassword && newPassword && retypePassword) {
-      // Save Call - To-do
+      const data = {
+        originalPassword: currentPassword,
+        newPassword,
+        retypePassword,
+      };
+      dispatch(initUpdateLoginDetails(data));
       return;
     }
 
@@ -118,58 +127,60 @@ const JobSettingTab = () => {
   };
 
   return (
-    <div className="job-setting-tab">
-      <div className="field-container">
-        <div className="field-column">
-          <div className="section-title">
-            <Typography variant="h4">Update Your Password</Typography>
+    <Spinner backdropProps={{ open: isUpdating }}>
+      <div className="job-setting-tab">
+        <div className="field-container">
+          <div className="field-column">
+            <div className="section-title">
+              <Typography variant="h4">Update Your Password</Typography>
+            </div>
+            <div className="field-section column-flex-multiple">
+              <TextField
+                label="Current Password"
+                type="password"
+                value={currentPassword}
+                onChange={onChangePassword}
+                helperText={errors.currentPassword}
+                hasError={!!errors.currentPassword}
+              />
+              <TextField
+                label="New Password"
+                type="password"
+                value={newPassword}
+                onChange={onChangeNewPassword}
+                helperText={errors.newPassword}
+                hasError={!!errors.newPassword}
+              />
+              <TextField
+                label="Retype New Password"
+                type="password"
+                value={retypePassword}
+                onChange={onChangeRetypePassword}
+                helperText={errors.retypePassword}
+                hasError={!!errors.retypePassword}
+              />
+            </div>
           </div>
-          <div className="field-section column-flex-multiple">
-            <TextField
-              label="Current Password"
-              type="password"
-              value={currentPassword}
-              onChange={onChangePassword}
-              helperText={errors.currentPassword}
-              hasError={!!errors.currentPassword}
-            />
-            <TextField
-              label="New Password"
-              type="password"
-              value={newPassword}
-              onChange={onChangeNewPassword}
-              helperText={errors.newPassword}
-              hasError={!!errors.newPassword}
-            />
-            <TextField
-              label="Retype New Password"
-              type="password"
-              value={retypePassword}
-              onChange={onChangeRetypePassword}
-              helperText={errors.retypePassword}
-              hasError={!!errors.retypePassword}
-            />
+          <div className="field-column">
+            <div className="section-title">
+              <Typography variant="h4">Username</Typography>
+            </div>
+            <div className="field-section column-flex-multiple">
+              <TextField
+                label="Identifier"
+                disabled
+                value={identifier}
+              />
+            </div>
           </div>
         </div>
-        <div className="field-column">
-          <div className="section-title">
-            <Typography variant="h4">Username</Typography>
-          </div>
-          <div className="field-section column-flex-multiple">
-            <TextField
-              label="Identifier"
-              disabled
-              value={identifier}
-            />
-          </div>
+        <div className="action-section">
+          <Button color="primary" variant="contained" onClick={onSaveChanges}>
+            Save
+          </Button>
         </div>
       </div>
-      <div className="action-section">
-        <Button color="primary" variant="contained" onClick={onSaveChanges}>
-          Save
-        </Button>
-      </div>
-    </div>
+    </Spinner>
   );
 };
 

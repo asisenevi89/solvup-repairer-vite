@@ -1,10 +1,24 @@
-import { ChangeEvent, memo, useState } from "react";
+import { ChangeEvent, memo, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Button, TextArea, TextField, Typography } from "../../../UI";
+import Spinner from "../../../Common/Spinner";
+import { makeJobSettings, makeJobSettingsUpdating } from "../../../../Slices/Configuration";
+import { initUpdateJobSettings } from "../../../../ActionCreators/Configurations";
 
 const JobSettingTab = () => {
+  const dispatch = useDispatch();
+  const isUpdating = useSelector(makeJobSettingsUpdating);
+  const currentSettings = useSelector(makeJobSettings);
+
   const [minimumFee, setMinimumFee] = useState(0.00);
   const [deliveryNote, setDeliveryNote] = useState('');
   const [advertiseMessage, setAdvertiseMessage] = useState('');
+
+  useEffect(() => {
+    setMinimumFee(currentSettings.minFee);
+    setDeliveryNote(currentSettings.deliveryNote);
+    setAdvertiseMessage(currentSettings.advertiseMessage);
+  }, [JSON.stringify(currentSettings)])
 
   const onChangeMinimumFee = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -21,8 +35,18 @@ const JobSettingTab = () => {
     setAdvertiseMessage(value);
   };
 
+  const onSaveChanges = () => {
+    const data = {
+      minFee: minimumFee,
+      deliveryNote,
+      advertiseMessage,
+    };
+    dispatch(initUpdateJobSettings(data))
+  };
+
   return (
     <div className="job-setting-tab">
+      <Spinner backdropProps={{ open: isUpdating }}>
       <div className="field-container">
         <div className="field-column">
           <div className="section-title">
@@ -68,8 +92,11 @@ const JobSettingTab = () => {
         </div>
       </div>
       <div className="action-section">
-        <Button color="primary" variant="contained">Save</Button>
+        <Button color="primary" variant="contained" onClick={onSaveChanges}>
+          Save
+        </Button>
       </div>
+      </Spinner>
     </div>
   );
 };

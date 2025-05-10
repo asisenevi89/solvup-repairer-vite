@@ -7,6 +7,7 @@ import caseListReducer from '../Slices/CaseList'
 import userReducer from '../Slices/User';
 import generalReducer from "../Slices/General";
 import caseActionReducer from "../Slices/CaseAction";
+import configurationReducer from "../Slices/Configuration";
 
 declare global {
   interface Window {
@@ -22,7 +23,8 @@ export const store = configureStore({
     general: generalReducer,
     user: userReducer,
     caseList: caseListReducer,
-    caseAction: caseActionReducer
+    caseAction: caseActionReducer,
+    configurations: configurationReducer,
   },
   middleware: (getDefaultMiddleware) => 
     getDefaultMiddleware().concat(thunk).concat(sagaMiddleWare),

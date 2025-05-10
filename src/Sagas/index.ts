@@ -12,6 +12,12 @@ import {
   INIT_SAVE_BOOKMARKED_STATUSES,
   INIT_FETCH_ANNOUNCEMENTS,
   INIT_FETCH_CASE_DETAILS_TAB_DATA,
+  INIT_FETCH_ACCOUNT_SUMMARY,
+  INIT_UPDATE_ACCOUNT_DETAILS,
+  INIT_UPDATE_LOGIN_DETAILS,
+  INIT_UPDATE_NATIONWIDE_PICKUP,
+  INIT_UPDATE_JOB_SETTINGS,
+  INIT_UPDATE_REPAIRER_AVAILABILITY,
 } from "../ActionCreators/ActionTypes";
 import { loginUser } from './User';
 import {
@@ -29,6 +35,14 @@ import {
   fetchCaseActionItems,
   fetchCaseDetailsTabData,
 } from './CaseAction'
+import {
+  fetchAccountSummary,
+  updateAccountSummary,
+  updateJobSettings,
+  updateLoginDetails,
+  updateNationwidePickup,
+  updateRepairerAvailability,
+} from './Configurations';
 
 
 export function* watchUser () {
@@ -51,10 +65,20 @@ export function* watchCaseAction () {
   yield takeLatest(INIT_FETCH_CASE_DETAILS_TAB_DATA, fetchCaseDetailsTabData);
 };
 
+export function* watchConfigurations () {
+  yield takeLatest(INIT_FETCH_ACCOUNT_SUMMARY, fetchAccountSummary);
+  yield takeLatest(INIT_UPDATE_ACCOUNT_DETAILS, updateAccountSummary);
+  yield takeLatest(INIT_UPDATE_LOGIN_DETAILS, updateLoginDetails);
+  yield takeLatest(INIT_UPDATE_NATIONWIDE_PICKUP, updateNationwidePickup);
+  yield takeLatest(INIT_UPDATE_JOB_SETTINGS, updateJobSettings);
+  yield takeLatest(INIT_UPDATE_REPAIRER_AVAILABILITY, updateRepairerAvailability);
+};
+
 export default function* rootSaga() {
   yield all([
     watchUser(),
     watchCaseList(),
     watchCaseAction(),
+    watchConfigurations(),
   ]);
 }

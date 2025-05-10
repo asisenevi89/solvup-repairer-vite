@@ -375,13 +375,15 @@ export type AnnouncementsListResType = {
 export interface AxiosGenericSuccessResData {
   Status: string,
   StatusDescription: string,
-  data: object,
+  data: CommonObjType,
+  message: string,
 }
 
 export interface AxiosGenericErrorResData {
   Status: string,
   StatusDescription: string,
   data: object,
+  message: string,
 }
 
 export interface AxiosErrorResponse {
