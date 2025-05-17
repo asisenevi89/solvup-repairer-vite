@@ -1,4 +1,4 @@
-import { ChangeEvent, memo, SyntheticEvent, useState } from "react";
+import { ChangeEvent, memo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { makeLoginDetailsUpdating, makeUserIdentifier } from "../../../../Slices/Configuration";
 import { Button, TextField, Typography } from "../../../UI";
@@ -104,7 +104,7 @@ const JobSettingTab = () => {
     onValidate('retypePassword', value);
   };
 
-  const onSaveChanges = async (event: SyntheticEvent) => {
+  const onSaveChanges = async () => {
     const hasErrors = Object.values(errors).some(value => !!value);
 
     if (hasErrors) return;

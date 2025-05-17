@@ -6,9 +6,6 @@ import { Link, TextField, Typography } from "../../../../../UI";
 import DetailCard from "../../../../../Common/DetailCard";
 import { CaseDetailTabItem } from "../../../../../../CustomTypes";
 
-type CaseDetailTabProps = {
-  tabKey: string;
-};
 const fields: CaseDetailTabItem[] = [{
   id: 11,
   name: "totalTime",
@@ -21,9 +18,7 @@ const fields: CaseDetailTabItem[] = [{
 }];
 
 
-const CaseDetailTab = ({
-  tabKey
-}: CaseDetailTabProps) => {
+const CaseDetailTab = () => {
   
 
   const getFieldComponent = (field: CaseDetailTabItem) => {

@@ -197,7 +197,7 @@ const RepairerList = () => {
     navigate(`/repairer-action/${rowId}`)
   };
 
-  const onPaginate = (event: ChangeEvent<unknown>, pageNumber: number) => {
+  const onPaginate = (_event: ChangeEvent<unknown>, pageNumber: number) => {
     setCurrentPage(pageNumber);
     onFetchJobs(pageNumber, order, orderBy, null);
   };
@@ -227,7 +227,7 @@ const RepairerList = () => {
   };
 
   const onSortTable = (
-    event: MouseEvent<unknown>,
+    _event: MouseEvent<unknown>,
     property: keyof RowObjectType,
     order: Order
   ) => {
@@ -241,7 +241,7 @@ const RepairerList = () => {
     filterDispatch({ type: `${column}_changed`, payload: value });
   };
 
-  const onSelectStatus = (event: SyntheticEvent, value: SelectItemType[]) => {
+  const onSelectStatus = (_event: SyntheticEvent, value: SelectItemType[]) => {
     if ( !value ) {
       setSelectedStatuses([]);
       return;

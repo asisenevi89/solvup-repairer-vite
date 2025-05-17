@@ -65,7 +65,7 @@ const ActionTabs = () => {
 
   const [selectedTab, setSelectedTab] = useState(NEXT_ACTION);
 
-  const onTabChanged = (event: ChangeEvent, currentTab: string) => {
+  const onTabChanged = (_event: ChangeEvent, currentTab: string) => {
     setSelectedTab(currentTab);
   };
 

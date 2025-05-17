@@ -70,7 +70,7 @@ const tabPanels = [
   { value: FAULT_PAPERWORK, children:  <CaseDetailTab tabKey={FAULT_PAPERWORK} /> },
   { value: ITEM_LOCATION, children: <CaseDetailTab tabKey={ITEM_LOCATION} /> },
   { value: CUSTOMER, children: <CaseDetailTab tabKey={CUSTOMER} /> },
-  { value: TIMING, children: <TimingTab tabKey={TIMING} /> },
+  { value: TIMING, children: <TimingTab /> },
   // Removed Temporarily 
   // { value: COMMUNICATION_LOG, children: <CaseDetailTab tabKey={COMMUNICATION_LOG} /> },
 ];
@@ -86,7 +86,7 @@ const SummaryTab = () => {
     setSelectedTab(CASE_SUMMARY);
   }, [caseId]);
 
-  const onTabChanged = (event: ChangeEvent, currentTab: string) => {
+  const onTabChanged = (_event: ChangeEvent, currentTab: string) => {
     setSelectedTab(currentTab);
     dispatch(initCaseDetailsTabData(caseId, currentTab));
 

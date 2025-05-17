@@ -73,7 +73,7 @@ const PickupZonesTab = () => {
     dispatch(initUpdateNationwidePickup(checked));
   };
 
-  const onDeleteRow = (rowId: TableRowDataType) => {
+  const onDeleteRow = (_rowId: TableRowDataType) => {
   };
 
   const onSearch = (event: ChangeEvent<HTMLInputElement>) => {
@@ -123,7 +123,7 @@ const PickupZonesTab = () => {
     fetchSavedPostCodes(defaultPage, '');
   };
 
-  const onPostcodePaginate = (event: ChangeEvent<unknown>, pageNumber: number) => {
+  const onPostcodePaginate = (_event: ChangeEvent<unknown>, pageNumber: number) => {
     setCurrentPage(pageNumber);
     fetchSavedPostCodes(pageNumber, search);
   };

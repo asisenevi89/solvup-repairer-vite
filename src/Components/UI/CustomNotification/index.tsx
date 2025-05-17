@@ -36,7 +36,7 @@ const CustomNotification = (props: CustomNotificationProps) => {
   }, [open])
 
   const handleClose = (
-    event?: SyntheticEvent | Event,
+    _event?: SyntheticEvent | Event,
     reason?: SnackbarCloseReason,
   ) => {
     if (reason === 'clickaway') {

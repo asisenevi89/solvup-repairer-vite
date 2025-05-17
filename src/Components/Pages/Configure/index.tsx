@@ -80,7 +80,7 @@ const tabPanels = [
 const Configure = () => {
   const [selectedTab, setSelectedTab] = useState(ACCOUNT_SUMMARY);
 
-  const onTabChanged = (event: ChangeEvent, currentTab: string) => {
+  const onTabChanged = (_event: ChangeEvent, currentTab: string) => {
     setSelectedTab(currentTab);
   };
 

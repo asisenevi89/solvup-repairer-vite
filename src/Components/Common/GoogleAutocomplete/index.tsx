@@ -128,7 +128,7 @@ const GooglePlacesAutocomplete = ({
     );
   }
 
-  const onSelectionOption = (event: SyntheticEvent, selected: any) => {
+  const onSelectionOption = (_event: SyntheticEvent, selected: any) => {
     if (!selected) return;
 
     fetchPlaceData(selected.place_id)
@@ -138,7 +138,7 @@ const GooglePlacesAutocomplete = ({
     <Autocomplete
       options={options}
       getOptionLabel={renderOptionLabel}
-      onInputChange={(event, value) => {
+      onInputChange={(_event, value) => {
         onChangeSearch(value);
       }}
       onChange={onSelectionOption}
