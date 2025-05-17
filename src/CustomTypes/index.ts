@@ -438,3 +438,17 @@ export type InitAddNote = {
   url: string,
   data: FormData
 };
+
+export type InitFileDownloadType = {
+  type: string,
+  url: string,
+  filename: string
+};
+
+export type DownloadResType = {
+  status: boolean,
+  message: string,
+  data: {
+    file: string,
+  },
+};

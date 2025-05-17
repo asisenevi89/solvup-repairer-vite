@@ -12,6 +12,7 @@ import {
   INIT_FETCH_CASE_DETAILS_TAB_DATA,
   INTI_ESCALATE_CASE,
   INIT_ADD_REQUEST_NOTE,
+  INIT_DOWNLOAD_NOTE_ATTACHMENT,
 } from "./ActionTypes";
 
 const dataUrl = import.meta.env.VITE_BACKEND_URL;
@@ -90,5 +91,14 @@ export const intiAddRequestNote = (data: FormData) => {
     url,
     data,
   }
+};
+
+export const initDownloadNoteAttachment = (url: string,  filename: string) => {
+
+  return {
+    type: INIT_DOWNLOAD_NOTE_ATTACHMENT,
+    url,
+    filename,
+  };
 };
 

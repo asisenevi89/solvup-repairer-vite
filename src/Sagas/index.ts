@@ -20,6 +20,9 @@ import {
   INIT_UPDATE_NATIONWIDE_PICKUP,
   INIT_UPDATE_JOB_SETTINGS,
   INIT_UPDATE_REPAIRER_AVAILABILITY,
+  INIT_FETCH_SAVED_POSTCODES,
+  INIT_SAVE_POSTCODES,
+  INIT_DOWNLOAD_NOTE_ATTACHMENT,
 } from "../ActionCreators/ActionTypes";
 import { loginUser } from './User';
 import {
@@ -38,9 +41,12 @@ import {
   fetchCaseDetailsTabData,
   escalateCase,
   addRequestNote,
+  downloadAttachment,
 } from './CaseAction'
 import {
   fetchAccountSummary,
+  fetchPostcodeList,
+  savePostcodes,
   updateAccountSummary,
   updateJobSettings,
   updateLoginDetails,
@@ -69,6 +75,7 @@ export function* watchCaseAction () {
   yield takeLatest(INIT_FETCH_CASE_DETAILS_TAB_DATA, fetchCaseDetailsTabData);
   yield takeLatest(INTI_ESCALATE_CASE, escalateCase);
   yield takeLatest(INIT_ADD_REQUEST_NOTE, addRequestNote);
+  yield takeLatest(INIT_DOWNLOAD_NOTE_ATTACHMENT, downloadAttachment);
 };
 
 export function* watchConfigurations () {
@@ -76,6 +83,8 @@ export function* watchConfigurations () {
   yield takeLatest(INIT_UPDATE_ACCOUNT_DETAILS, updateAccountSummary);
   yield takeLatest(INIT_UPDATE_LOGIN_DETAILS, updateLoginDetails);
   yield takeLatest(INIT_UPDATE_NATIONWIDE_PICKUP, updateNationwidePickup);
+  yield takeLatest(INIT_FETCH_SAVED_POSTCODES, fetchPostcodeList);
+  yield takeLatest(INIT_SAVE_POSTCODES, savePostcodes);
   yield takeLatest(INIT_UPDATE_JOB_SETTINGS, updateJobSettings);
   yield takeLatest(INIT_UPDATE_REPAIRER_AVAILABILITY, updateRepairerAvailability);
 };

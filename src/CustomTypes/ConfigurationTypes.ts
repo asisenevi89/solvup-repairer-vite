@@ -90,3 +90,38 @@ export type InitUpdateJobSettingType = {
   url: string,
   data: JobSettingUpdateData,
 };
+
+export type InitFetchPostCodesType = {
+  type: string,
+  url: string,
+};
+
+export type PostcodeListItem = {
+  id: number,
+  postcode: string,
+  suburb: string,
+  city: string,
+  state: string,
+};
+
+export type PostcodesFetchData = {
+  totalRecords: number,
+  records: PostcodeListItem[],
+};
+
+export type PostcodesFetchResType = {
+  message: string,
+  status: number,
+  data: PostcodesFetchData,
+};
+
+export type AxiosPostcodeFetchResType = { 
+  data: PostcodesFetchResType,
+};
+
+export type InitSavePostCodesType = {
+  type: string,
+  url: string,
+  data: string[],
+  successCallback: () => void
+};

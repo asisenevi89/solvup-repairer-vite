@@ -12,9 +12,10 @@ import {
   setCaseTabData,
   setCaseEscalationStatus,
   setNoteSavingStatus,
+  setAttachmentDownloading,
 } from '../Slices/CaseAction';
 import { setNetworkError, setSuccessSave } from "../Slices/General";
-import { getAxiosInstance } from "../Utils/Helpers";
+import { getAccessToken, getAxiosInstance } from "../Utils/Helpers";
 import {
   InitActionType,
   InitJobActionSaveType,
@@ -26,6 +27,8 @@ import {
   AxiosGenericSuccessResData,
   AxiosErrorResponse,
   InitAddNote,
+  DownloadResType,
+  InitFileDownloadType,
 } from "../CustomTypes";
 import { AxiosJobListResponseType } from "./CaseList";
 import { initFetchCaseRequestNotes } from "../ActionCreators/CaseAction";
@@ -40,6 +43,10 @@ type AxiosJobActionItemsType = {
 
 type AxiosCaseDetailsTabDataType = {
   data: CaseDetailTabResDataType
+}
+
+type AxiosDownloadAttachmentType = {
+  data: DownloadResType
 }
 
 export function* fetchCaseById(action: InitActionType) {
@@ -164,6 +171,44 @@ export function* addRequestNote (action: InitAddNote) {
   } catch (error) {
     const axiosError = error as AxiosErrorResponse
     yield put(setNoteSavingStatus(false));
+    yield put(setNetworkError(axiosError.response.data.StatusDescription));
+    console.error(error);
+  }
+};
+
+export function* downloadAttachment(action: InitFileDownloadType) {
+  const { url, filename } = action;
+
+
+  try {
+    yield put(setAttachmentDownloading(true));
+    const response: AxiosDownloadAttachmentType = yield axios.get(url, {
+      headers: { Authorization: `Bearer ${getAccessToken()}`}
+    });
+    const fileData = response.data.data.file;
+
+    const base64Data = fileData.split(',').pop();
+
+    yield put(setAttachmentDownloading(false));
+    if (!base64Data) return;
+
+    const byteCharacters = atob(base64Data);
+    const byteNumbers = Array.from(byteCharacters).map(char => char.charCodeAt(0));
+    const byteArray = new Uint8Array(byteNumbers);
+
+    const blob = new Blob([byteArray]);
+
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(link.href);
+  } catch (error) {
+    const axiosError = error as AxiosErrorResponse;
+    yield put(setAttachmentDownloading(false));
     yield put(setNetworkError(axiosError.response.data.StatusDescription));
     console.error(error);
   }

@@ -1,4 +1,4 @@
-import { CommonObjType, PickupPointType, WarrantyBrandType, WarrantyGroupType } from "../CustomTypes";
+import { CommonObjType, WarrantyBrandType, WarrantyGroupType } from "../CustomTypes";
 
 export const dummyNote: CommonObjType = {
   submittedBy: 'Custom User',
@@ -15,17 +15,6 @@ export const customerDetails: CommonObjType = {
   mobilePhone: '+61558625171',
   address: '214 Blackshaws Road Altona North, Altona, East VIC 3025',
 };
-
-export const pickupPoints: PickupPointType[] = [
-  { city: 'Sydney', state: 'New South Wales', suburb: 'Bondi Beach', postcode: 2026 },
-  { city: 'Melbourne', state: 'Victoria', suburb: 'St. Kilda', postcode: 3182 },
-  { city: 'Brisbane', state: 'Queensland', suburb: 'Fortitude Valley', postcode: 4006 },
-  { city: 'Adelaide', state: 'South Australia', suburb: 'Glenelg', postcode: 5045 },
-  { city: 'Hobart', state: 'Tasmania', suburb: 'Battery Point', postcode: 6160 },
-  { city: 'Canberra', state: 'Australian Capital Territory', suburb: 'Kingston', postcode: 8020 },
-  { city: 'Gold Coast', state: 'Queensland', suburb: 'Surface Paradise', postcode: 2604 },
-  { city: 'Perth', state: 'Western Australia', suburb: 'Alkimos', postcode: 3455 },
-];
 
 export const warrantyBrands: WarrantyBrandType[] = [
   { id: 1, name: 'Apple', groups: [1, 2, 3, 4] },

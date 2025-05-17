@@ -1,4 +1,4 @@
-import { ChangeEvent, memo, useState, useCallback } from 'react';
+import { ChangeEvent, memo, useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import _debounce from 'lodash/debounce';
 import {
@@ -15,33 +15,58 @@ import Spinner from '../../../Common/Spinner';
 import CheckCircle from '@mui/icons-material/CheckCircleOutlineOutlined';
 import SearchIcon from '@mui/icons-material/Search';
 import BinIcon from '@mui/icons-material/DeleteOutline';
-import { pickupPoints } from '../../../../Utils/DummyData';
-import { PickupPointType, PlaceResult, TableRowDataType } from '../../../../CustomTypes';
+import { FileUploadType, PlaceResult, TableRowDataType } from '../../../../CustomTypes';
 import GoogleAutocomplete from '../../../Common/GoogleAutocomplete';
 import googlePin from '../../../../Assets/images/googlePin.png'
-import { makePickupStatus, makePickupStatusUpdating } from '../../../../Slices/Configuration';
-import { initUpdateNationwidePickup } from '../../../../ActionCreators/Configurations';
+import { makePickupStatus, makePickupStatusUpdating, makePostcodeData, makePostcodeListLoading, makePostcodesSaving } from '../../../../Slices/Configuration';
+import { initFetchSavedPostCodes, initSavePostCodes, initUpdateNationwidePickup } from '../../../../ActionCreators/Configurations';
+import { STATES } from '../../../../Utils/Constants';
+import { setNetworkError } from '../../../../Slices/General';
+import DetailCard from '../../../Common/DetailCard';
+import { isValidPostcode } from '../../../../Utils/Helpers';
 
 const zoneTableHeaders = [
+  { key: 'id', label: 'Id', isHidden: true },
   { key: 'city', label: 'City'},
   { key: 'state', label: 'State'},
   { key: 'suburb', label: 'Suburb'},
   { key: 'postcode', label: 'Postcode'},
 ];
 
-const suburbType = 'locality';
-const stateType = 'administrative_area_level_1';
-const cityType = 'administrative_area_level_2';
 const postcodeType = 'postal_code';
+
+const pageSize = 10;
+const defaultPage = 1;
+
+const allowedTypes = ['text/csv'];
 
 const PickupZonesTab = () => {
   const dispatch = useDispatch();
   const nationwidePickup = useSelector(makePickupStatus);
   const isUpdatingPickup = useSelector(makePickupStatusUpdating);
+  const savedPostcodeData = useSelector(makePostcodeData);
+  const isFetchingPostcodes = useSelector(makePostcodeListLoading);
+  const isSavingPostCodes = useSelector(makePostcodesSaving);
+  const { totalRecords, records } = savedPostcodeData;
 
-  const [locations, setLocations] = useState(pickupPoints);
-  const [filteredLocation, setFilteredLocation] = useState(pickupPoints);
-  const [newPlaceData, setNewPlaceData] = useState<PlaceResult | null>(null)
+  const [newPlaceData, setNewPlaceData] = useState<PlaceResult | null>(null);
+  const [currentPage, setCurrentPage] = useState(defaultPage);
+  const [search, setSearch] = useState('');
+  const [uploadList, setUploadList] = useState<string[]>([]);
+  const [postcodeListError, setPostcodeListError] = useState(false);
+  const [uploadReset, setUploadReset] = useState(0);
+
+  useEffect(() => {
+    fetchSavedPostCodes();
+  }, []);
+
+  const fetchSavedPostCodes = (
+    paginatePage = currentPage,
+    currentSearch = search,
+  ) => {
+    const page = paginatePage - 1;
+    dispatch(initFetchSavedPostCodes(page, pageSize, currentSearch));
+  }
 
   const onChangePickup = (event: ChangeEvent<HTMLInputElement>) => {
     const { checked } = event.target;
@@ -49,14 +74,129 @@ const PickupZonesTab = () => {
   };
 
   const onDeleteRow = (rowId: TableRowDataType) => {
-    // This should be replaced
-    setLocations(prevState => (
-      prevState.filter(item => item.postcode !== rowId)
-    ));
-    setFilteredLocation(prevState => (
-      prevState.filter(item => item.postcode !== rowId)
-    ));
+  };
+
+  const onSearch = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setSearch(value);
+    searchLocations(value);
+  };
+
+  const searchLocations = useCallback(
+    _debounce(
+      (value:string) => {
+        setCurrentPage(defaultPage);
+        fetchSavedPostCodes(defaultPage, value);
+      },
+     500,
+    ),
+    [],
+  );
+
+  const addNewPickupLocation = () => {
+    if (!newPlaceData) return;
+
+    const addressElements = newPlaceData.address_components || [];
+  
+    let postcode = '';
+
+    addressElements.forEach(item => {
+
+      if (item.types.includes(postcodeType)) {
+        postcode = item.long_name;
+      }
+    });
+
+    setNewPlaceData(null);
+
+    if (!postcode) {
+      dispatch(setNetworkError('No Postcode found for the selected location'));
+      return;
+    }
+
+    dispatch(initSavePostCodes([postcode], onAddSuccess));
+  };
+
+  const onAddSuccess = () => {
+    setSearch('');
+    setCurrentPage(defaultPage);
+    fetchSavedPostCodes(defaultPage, '');
+  };
+
+  const onPostcodePaginate = (event: ChangeEvent<unknown>, pageNumber: number) => {
+    setCurrentPage(pageNumber);
+    fetchSavedPostCodes(pageNumber, search);
+  };
+
+  const tableCellRenders = (value: TableRowDataType, column: string) => {
+    if (column === 'state') {
+      const found = STATES.find(state => state.value === value);
+
+      if (!found) return value;
+
+      return found.label;
+    }
+
+    return value;
+  };
+
+  const beforeUpload = (fileList: FileUploadType) => {
+    const file = fileList && fileList[0];
+
+    if (!file) return '';
+
+    if (!allowedTypes.includes(file.type)) {
+      return 'An Invalid File Type';
+    }
+
+    return '';
+  };
+
+  const onFileUpload = (fileList: FileUploadType) => {
+    const file = fileList && fileList[0];
+
+    if (!file) return;
+
+    const fileReader = new FileReader();
+
+    fileReader.onload = (event) => {
+      const text = event.target && event.target.result;
+
+      const lines = text && text.toString()
+        .trim()
+        .split('\n')
+
+      if (!lines?.length) return;
+
+      const [ _, ...postcodes ] = lines;
+      const edited = postcodes.map(item => item.trim().replace('\r', ''));
+      const hasErrors = hasPostCodeError(edited);
+      
+      setPostcodeListError(hasErrors);
+      setUploadList(edited);
+    };
+
+    fileReader.readAsText(file)
+  };
+
+  const hasPostCodeError = (list: string[]) => {
+    return list.some(item => !isValidPostcode(item));
   }
+
+  const onRemoveFile = () => {
+    setUploadList([]);
+    setPostcodeListError(false);
+  };
+
+  const uploadPostCodeList = () => {
+    dispatch(initSavePostCodes(uploadList, onSuccessPostCodeList))
+  };
+
+  const onSuccessPostCodeList = () => {
+    onAddSuccess();
+    setUploadReset(Date.now());
+    setUploadList([]);
+  };
 
   const getRowActions = () => [
     {
@@ -70,74 +210,33 @@ const PickupZonesTab = () => {
     },
   ];
 
-  const onSearch = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    searchLocations(value);
-  };
+  const renderUploadedPostCodes = () => {
+    if (!uploadList.length) return null;
 
-  const searchLocations = useCallback(
-    _debounce(
-      (value:string) => {
-        // This should be replaced
-        const filtered = locations.filter(item => 
-          item.city.toLowerCase().includes(value.toLowerCase()),
-        );
-        setFilteredLocation(filtered);
-      },
-     500,
-    ),
-    [locations],
-  );
+    let listMessage = 'The above postcode list will be uploaded.'
+    let messageClass = '';
 
-  const addNewPickupLocation = () => {
-    if (!newPlaceData) return;
+    if (postcodeListError) {
+      listMessage = 'One or more postcodes are invalid. Please reupload a valid list.'
+      messageClass = 'upload-error';
+    }
 
-    const addressElements = newPlaceData.address_components || [];
-    
-    let city = '';
-    let state = '';
-    let suburb = '';
-    let postcode = 0;
-
-    addressElements.forEach(item => {
-      if (item.types.includes(suburbType)) {
-        suburb = item.long_name;
-        return;
-      }
-
-      if (item.types.includes(cityType)) {
-        city = item.long_name;
-        return;
-      }
-
-      if (item.types.includes(stateType)) {
-        state = item.long_name;
-        return;
-      }
-
-      if (item.types.includes(postcodeType)) {
-        postcode = parseInt(item.long_name);
-      }
-    });
-
-    city = !city ? suburb : city;
-    suburb = !suburb ? city : suburb;
-
-    const newLocation: PickupPointType = { city, state, suburb, postcode };
-
-    setLocations(prevValue => (
-      [
-        ...prevValue,
-        newLocation,
-      ]
-    ));
-    setFilteredLocation(prevValue => (
-      [
-        ...prevValue,
-        newLocation,
-      ]
-    ));
-    setNewPlaceData(null);
+    return (
+      <div className='uploaded-list'>
+        <DetailCard details={uploadList.map((item, index) => (
+          { dataKey: `Postcode #${index + 1}`, dataValue: item }
+        ))} />
+        
+        <div className='button-bar'>
+          <Typography variant='h5' className={messageClass}>
+            {listMessage}
+          </Typography>
+          <Button variant="contained" onClick={uploadPostCodeList} disabled={postcodeListError}>
+            Proceed
+          </Button>
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -188,34 +287,47 @@ const PickupZonesTab = () => {
                   className='add-code'
                   variant='contained'
                   onClick={addNewPickupLocation}
+                  disabled={isSavingPostCodes}
                 >
                   Add
                 </Button>
               </div>
-              <div className='list-area'>
-                <div className='header'>
-                  <Typography variant='h4'>
-                    Selected postcodes
-                  </Typography>
-                  <TextField 
-                    label='Search'
-                    slotProps={{
-                      input: { endAdornment: <SearchIcon fontSize='large' /> }
+              <Spinner backdropProps={{ open: isFetchingPostcodes || isSavingPostCodes }}>
+                <div className='list-area'>
+                  <div className='header'>
+                    <Typography variant='h4'>
+                      Selected postcodes
+                    </Typography>
+                    <TextField 
+                      label='Search'
+                      slotProps={{
+                        input: { endAdornment: <SearchIcon fontSize='large' /> }
+                      }}
+                      onChange={onSearch}
+                      value={search}
+                    /> 
+                  </div>
+                  <Table
+                    wrapperClass='tab-table postcode-list-table'
+                    headers={zoneTableHeaders}
+                    data={records}
+                    rowUniqueIdKey="id"
+                    isStripped
+                    rowActions={getRowActions()}
+                    actionCellAlign="right"
+                    hideActionHeader
+                    cellRenderer={tableCellRenders}
+                    paginateData={{
+                      className: 'postcode-pagination',
+                      count: Math.ceil(totalRecords / pageSize),
+                      page: currentPage,
+                      onChange: onPostcodePaginate,
+                      variant: "outlined",
+                      shape:"rounded",
                     }}
-                    onChange={onSearch}
-                  /> 
+                  />
                 </div>
-                <Table
-                  wrapperClass='tab-table postcode-list-table'
-                  headers={zoneTableHeaders}
-                  data={filteredLocation}
-                  rowUniqueIdKey="postcode"
-                  isStripped
-                  rowActions={getRowActions()}
-                  actionCellAlign="right"
-                  hideActionHeader
-                />
-              </div>
+              </Spinner>
             </div>
             <div className='upload-section'>
               <Typography variant='h3'>
@@ -224,7 +336,14 @@ const PickupZonesTab = () => {
               <Typography className='info'>
                 Please submit a text file with one postcode per line with no header
               </Typography>
-              <Upload variant='outlined' onUpload={() => {}} />
+              <Upload
+                variant='outlined'
+                onUpload={onFileUpload} 
+                beforeUpload={beforeUpload}
+                onRemoveFile={onRemoveFile}
+                resetCounter={uploadReset}
+              />
+              {renderUploadedPostCodes()}
             </div>
           </div>
         </div>

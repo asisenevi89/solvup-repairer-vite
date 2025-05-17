@@ -111,14 +111,14 @@ export const REPAIRER_JOB_SETTING = 'repairerJobSetting';
 export const CONFIG_DOCS = 'docs';
 
 export const STATES = [
-  { value: 'wa',  label: 'Western Australia' },
-  { value: 'nt',  label: 'Northern Territory' },
-  { value: 'sa',  label: 'South Australia' },
-  { value: 'nws',  label: 'New South Wales' },
-  { value: 'qld',  label: 'Queensland' },
-  { value: 'vic',  label: 'Victoria' },
-  { value: 'tas',  label: 'Tasmania' },
-  { value: 'act',  label: 'Australian Capital Territory' },
+  { value: 'WA',  label: 'Western Australia' },
+  { value: 'NT',  label: 'Northern Territory' },
+  { value: 'SA',  label: 'South Australia' },
+  { value: 'NSW',  label: 'New South Wales' },
+  { value: 'QLD',  label: 'Queensland' },
+  { value: 'VIC',  label: 'Victoria' },
+  { value: 'TAS',  label: 'Tasmania' },
+  { value: 'ACT',  label: 'Australian Capital Territory' },
 ];
 
 export const REPAIR_SYSTEMS = [

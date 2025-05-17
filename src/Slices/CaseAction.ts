@@ -21,6 +21,7 @@ export type CaseDetailState = {
     jobActionItems: {},
     isCaseEscalating: boolean,
     isAddingRequestNote: boolean,
+    isAttachmentDownloading: false,
   }
 };
 
@@ -47,6 +48,7 @@ const initialState = {
   jobActionItems: {},
   isCaseEscalating: false,
   isAddingRequestNote: false,
+  isAttachmentDownloading: false,
 };
 
 const caseActionSlice = createSlice({
@@ -87,6 +89,9 @@ const caseActionSlice = createSlice({
     setNoteSavingStatus(state, action: PayloadAction<boolean>) {
       _set(state, 'isAddingRequestNote', action.payload); 
     },
+    setAttachmentDownloading(state, action: PayloadAction<boolean>) {
+      _set(state, 'isAttachmentDownloading', action.payload); 
+    }
   },
   selectors: {
     makeSelectedJob: state => state.selectedJob,
@@ -99,6 +104,7 @@ const caseActionSlice = createSlice({
     makeCaseTabDataLoading: state => state.caseTabDataLoading,
     makeCaseEscalationStatus: state => state.isCaseEscalating,
     makeNoteSaving: state => state.isAddingRequestNote,
+    makeAttachmentDownloading: state => state.isAttachmentDownloading,
   }
 })
 
@@ -114,6 +120,7 @@ export const {
   setCaseTabDataLoading,
   setCaseEscalationStatus,
   setNoteSavingStatus,
+  setAttachmentDownloading,
 } = caseActionSlice.actions;
 
 export const  {
@@ -127,6 +134,7 @@ export const  {
   makeCaseTabDataLoading,
   makeCaseEscalationStatus,
   makeNoteSaving,
+  makeAttachmentDownloading,
 } = caseActionSlice.selectors
 
 export default caseActionSlice.reducer;

@@ -246,6 +246,11 @@
                 justify-content: space-between;
                 align-items: center;
               }
+              .postcode-pagination {
+                float: right;
+                padding: 10px 0px;
+                margin-left: 15px;
+              }
             }
           }
           .upload-section {
@@ -254,6 +259,18 @@
             .info {
               margin-top: -10px;
               margin-bottom: var(--margin-medium);
+            }
+          }
+          .uploaded-list {
+            margin-top: var(--margin-medium);
+            .button-bar {
+              margin-top: var(--margin-medium);
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              .upload-error {
+                color: var(--errorColor);
+              }
             }
           }
         }
@@ -335,6 +352,14 @@
           }
         }
       }
+    }
+  }
+}
+
+.tab-table {
+  &.postcode-list-table {
+    .MuiTableBody-root {
+      height: calc(100vh - 600px);
     }
   }
 }

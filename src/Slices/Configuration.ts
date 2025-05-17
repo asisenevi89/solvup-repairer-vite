@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import _set from "lodash/set";
-import { AccountSummaryType, JobSettingUpdateData } from "../CustomTypes/ConfigurationTypes";
+import { AccountSummaryType, JobSettingUpdateData, PostcodesFetchData } from "../CustomTypes/ConfigurationTypes";
 import { defaultAccountSummary } from "../Utils/Constants";
 
 const initialState = {
@@ -11,6 +11,12 @@ const initialState = {
   isNationWidePickupUpdating: false,
   isJobSettingUpdating: false,
   isAvailabilityUpdating: false,
+  isPostCodeListLoading: false,
+  postcodeList: {
+    totalRecords: 0,
+    records: []
+  },
+  isPostCodesSaving: false,
 };
 
 const configurationSlice = createSlice({
@@ -53,6 +59,15 @@ const configurationSlice = createSlice({
     setAvailabilityUpdating: (state, action: PayloadAction<boolean>) => {
       _set(state, 'isAvailabilityUpdating',  action.payload);
     },
+    setPostcodeList: (state, action: PayloadAction<PostcodesFetchData>) => {
+      _set(state, 'postcodeList',  action.payload);
+    },
+    setPostcodeListLoading: (state, action: PayloadAction<boolean>) => {
+      _set(state, 'isPostCodeListLoading',  action.payload);
+    },
+    setPostcodesSaving: (state, action: PayloadAction<boolean>) => {
+      _set(state, 'isPostCodesSaving',  action.payload);
+    }
   },
   selectors: {
     makeAccountSummaryLoading: state => state.isAccountSummaryLoading,
@@ -68,6 +83,20 @@ const configurationSlice = createSlice({
     },
     makeJobSettingsUpdating: state => state.isJobSettingUpdating,
     makeAvailabilityUpdating: state => state.isAvailabilityUpdating,
+    makePostcodeData: state => {
+      const { records, totalRecords } = state.postcodeList;
+      const filteredData = records.map(record => {
+        const { id, city, state, suburb, postcode } = record
+        return { id, city, state, suburb, postcode }
+      });
+
+      return {
+        totalRecords,
+        records: filteredData,
+      };
+    },
+    makePostcodeListLoading: state => state.isPostCodeListLoading,
+    makePostcodesSaving: state => state.isPostCodesSaving,
   },
 });
 
@@ -82,6 +111,9 @@ export const {
   setJobSettingUpdating,
   setAvailability,
   setAvailabilityUpdating,
+  setPostcodeList,
+  setPostcodeListLoading,
+  setPostcodesSaving,
 } = configurationSlice.actions;
 
 export const {
@@ -95,6 +127,9 @@ export const {
   makeJobSettings,
   makeJobSettingsUpdating,
   makeAvailabilityUpdating,
+  makePostcodeData,
+  makePostcodeListLoading,
+  makePostcodesSaving,
 } = configurationSlice.selectors;
 
 export default configurationSlice.reducer;
