@@ -116,6 +116,7 @@ const JobSettingTab = () => {
         retypePassword,
       };
       dispatch(initUpdateLoginDetails(data));
+      clearOnSubmission();
       return;
     }
 
@@ -124,6 +125,12 @@ const JobSettingTab = () => {
       newPassword: !newPassword ? emptyNewPassword : '',
       retypePassword: !retypePassword ? emptyRetypePassword : '',
     });
+  };
+
+  const clearOnSubmission = () => {
+    setCurrentPassword('');
+    setNewPassword('');
+    setRetypePassword('');
   };
 
   return (
